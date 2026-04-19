@@ -15,7 +15,9 @@
 |------|---------|------|---------|
 | 对话级 | `.claude/context.md` | 当前对话的目标、计划、决策 | `/context` |
 | 项目级 | `.claude/snapshots/<date>.md` | 项目状态快照（中断恢复） | `/snapshot` |
-| 全局级 | `~/.claude/knowledge/` | 跨项目可复用知识 | extract agent (Phase 3) |
+| 项目级 | `.claude/decisions/<slug>.md` | 结构化决策记录（知识沉淀） | `/distill` |
+| 项目级 | `.claude/project.yaml` | 项目元信息（名称、用途、阶段） | `/init` |
+| 全局级 | `~/.claude/knowledge/` | 跨项目可复用知识 | Phase 4 |
 
 ## 安装
 
@@ -25,8 +27,8 @@ cd context-kit
 ```
 
 安装后会在 `~/.claude/` 创建符号链接：
-- `agents/{context,snapshot,recap}.md` - 3 个 agent
-- `commands/{context,snapshot,recap}.md` - 3 个硬派发命令
+- `agents/{context,snapshot,recap,init,distill}.md` - 5 个 agent
+- `commands/{context,snapshot,recap,init,distill}.md` - 5 个硬派发命令
 - `scripts/` - trace hook 脚本
 
 ## 命令
@@ -101,6 +103,50 @@ cd context-kit
 - 无 snapshot → 使用 context.md + git
 - 无 context.md → 只用 git + 提示运行 `/context update`
 
+### `/init` — 初始化项目知识结构
+
+创建 `.claude/project.yaml` 和 `.claude/decisions/` 目录。
+
+```
+/init              # 在项目开始时初始化知识结构
+```
+
+**创建的文件**：
+- `.claude/project.yaml` — 项目名称、用途、当前阶段（从 git remote 和 README 自动推断）
+- `.claude/decisions/index.md` — 决策索引
+
+### `/distill` — 从 snapshots 提炼决策
+
+读取 snapshots 和 context.md，识别关键决策，写入结构化记录。
+
+```
+/distill           # 从最近 3 个 snapshots 提炼决策
+```
+
+**决策格式**（`.claude/decisions/<slug>.md`）：
+```markdown
+# Hook 协议改为 stdin JSON
+
+**Date**: 2026-04-19
+**Scope**: trace hook
+
+## Choice
+从环境变量改为 stdin JSON 协议。
+
+## Why
+- 环境变量不符合 Claude Code 实际协议
+- stdin JSON 是官方协议，devkit 已验证可行
+
+## Rejected
+- 保持环境变量：生产环境无法工作
+
+## Impact
+- 修复了 trace hook 的生产 bug
+- 需要重写 test.sh 的 hook 测试
+```
+
+**数据流向**：trace → `/snapshot` 消费 → `/distill` 提炼 → decisions/
+
 ## 自动追踪
 
 trace hook 自动记录所有 Edit/Write/Bash/TaskUpdate 到 `.claude/trace/<session>.jsonl`：
@@ -111,7 +157,7 @@ trace hook 自动记录所有 Edit/Write/Bash/TaskUpdate 到 `.claude/trace/<ses
 {"ts":"2026-04-19T10:32:00Z","tool":"TaskUpdate","task":"task-1","status":"completed"}
 ```
 
-**数据流向**：trace → `/snapshot` 消费 → `/recap` 呈现
+**数据流向**：trace → `/snapshot` 消费 → `/distill` 提炼 → `/recap` 呈现
 
 ## 配置
 
@@ -157,18 +203,20 @@ trace hook 自动记录所有 Edit/Write/Bash/TaskUpdate 到 `.claude/trace/<ses
 
 | 维度 | devkit | context-kit |
 |------|--------|-------------|
-| Agent 数量 | 6 个 | 3 个 |
+| Agent 数量 | 6 个 | 5 个 |
 | Hook 复杂度 | 84 行（多分支+副作用） | 55 行（纯记录） |
 | 自动化程度 | 高（auto-checkpoint、auto-promote） | 低（手动触发） |
-| 提示词总量 | ~550 行 | ~250 行 |
+| 提示词总量 | ~550 行 | ~430 行 |
 | 核心文件 | context.md（自由格式，≤120 行） | context.md（固定格式，≤60 行） |
+| 决策记录 | decisions/ + assets/ + confidence 1-5 | decisions/（无 assets） |
 | 跨会话恢复 | 读 checkpoint + task + decisions | 读 snapshot + context + git |
 
 ## 路线图
 
 - [x] **Phase 1**: 对话级上下文（trace hook + context agent）
 - [x] **Phase 2**: 项目级快照（snapshot agent + recap agent）
-- [ ] **Phase 3**: 全局级知识（extract agent，知识复利）
+- [x] **Phase 3**: 项目级资产（init agent + distill agent + decisions/）
+- [ ] **Phase 4**: 全局级知识（extract agent，跨项目复用）
 
 ## License
 

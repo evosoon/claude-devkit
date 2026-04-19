@@ -1,6 +1,6 @@
 ---
 name: snapshot
-description: 生成项目快照 — 记录当前项目状态到 .claude/snapshots/
+description: Generate project snapshot — reads trace/git/context, writes .claude/snapshots/<date>.md. NOT for context.md updates, use snapshot subagent.
 ---
 
 Use the `snapshot` subagent to handle this request.

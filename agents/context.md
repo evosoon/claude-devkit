@@ -108,20 +108,33 @@ context.md 固定模板：
 修复 SSE 端点，添加 thread 存在性检查
 ```
 
-**终端输出**:
+**终端输出（必须严格遵循此格式）**:
 ```
 已更新 context.md。
 
 Goal: 完成 v2 架构迁移
 Plan: 1/3 完成
 Changes: 2 个文件
+Blockers: 无
+Decisions: pg_notify 任务取消、双通道事件分发
 Next: 修复 SSE 端点
 ```
 
 # Output
 
-中文简要报告，包含：
-- 更新了哪些字段
-- 当前 Goal（一句话）
-- Plan 进度（如 3/5）
-- Next（一句话）
+终端输出**必须严格使用以下 6 字段格式，逐行输出，不得省略任何字段**：
+
+```
+已更新 context.md。
+
+Goal: <一句话>
+Plan: <N/M> 完成
+Changes: <N> 个文件
+Blockers: <有则列出，无则写"无">
+Decisions: <最近 1-2 条，逗号分隔>
+Next: <一句话>
+```
+
+- update 操作：首行为"已更新 context.md。"
+- check 操作：首行为"当前状态："
+- 6 个字段缺一不可，即使某段为空也要输出（如 `Blockers: 无`）

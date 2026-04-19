@@ -3,3 +3,5 @@
 *.bak
 .claude/trace/
 .claude/snapshots/*.md
+.claude/decisions/*.md
+!.claude/decisions/index.md

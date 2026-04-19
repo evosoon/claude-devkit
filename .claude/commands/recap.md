@@ -1,6 +1,6 @@
 ---
 name: recap
-description: 跨会话恢复 — 快速回到工作状态
+description: Cross-session recovery briefing — reads snapshots/context/git, outputs ≤25 line Chinese summary. NOT for updating context.md, use recap subagent.
 ---
 
 Use the `recap` subagent to handle this request.
