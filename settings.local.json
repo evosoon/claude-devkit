@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(./test.sh)",
+      "Bash(chmod *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|Bash|TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/scripts/hook-post-tool.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

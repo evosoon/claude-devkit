@@ -1,0 +1,5 @@
+.DS_Store
+.env
+*.bak
+.claude/trace/
+.claude/snapshots/*.md
