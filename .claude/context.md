@@ -11,10 +11,8 @@
 - [ ] Phase 4: 文档完善与发布准备
 
 ## Changes
-- .claude/commands/recap.md (修改中)
-- .claude/commands/snapshot.md (修改中)
-- .claude/context.md (修改中)
-- agents/context.md (修改中)
+- .claude/commands/ctx.md (从 context.md 重命名)
+- agents/ctx.md (从 context.md 重命名，更新 name 字段)
 
 ## Blockers
 （无）
@@ -25,6 +23,7 @@
 - install.sh / uninstall.sh 管理安装卸载
 - settings.local.json 配置 agent 权限
 - context.md 采用固定六段式结构（Goal/Plan/Changes/Blockers/Decisions/Next），上限 60 行
+- /context 命令与 Claude Code 内置命令冲突，重命名为 /ctx（commit 8658ba7）
 
 ## Next
-启动 Phase 3：设计并实现 extract agent，从 snapshots 提取全局知识写入 CLAUDE.md
+推进 Phase 4：文档完善与发布准备
