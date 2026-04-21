@@ -13,7 +13,7 @@
 
 | 级别 | 文件位置 | 用途 | 更新方式 |
 |------|---------|------|---------|
-| 对话级 | `.claude/context.md` | 当前对话的目标、计划、决策 | `/context` |
+| 对话级 | `.claude/context.md` | 当前对话的目标、计划、决策 | `/ctx` |
 | 项目级 | `.claude/snapshots/<date>.md` | 项目状态快照（中断恢复） | `/snapshot` |
 | 项目级 | `.claude/decisions/<slug>.md` | 结构化决策记录（知识沉淀） | `/distill` |
 | 项目级 | `.claude/project.yaml` | 项目元信息（名称、用途、阶段） | `/init` |
@@ -28,19 +28,58 @@ cd context-kit
 
 安装后会在 `~/.claude/` 创建符号链接：
 - `agents/{context,snapshot,recap,init,distill}.md` - 5 个 agent
-- `commands/{context,snapshot,recap,init,distill}.md` - 5 个硬派发命令
+- `commands/{ctx,snapshot,recap,init,distill}.md` - 5 个命令
 - `scripts/` - trace hook 脚本
 
-## 命令
+## 快速上手
 
-### `/context` — 对话级上下文管理
+**新项目开始时**：
+```bash
+/init              # 初始化项目知识结构
+/ctx update        # 记录当前目标和计划
+```
+
+**开发过程中**：
+```bash
+/ctx check         # 检查当前进度，防止偏离目标
+/ctx update        # 完成阶段性工作后更新状态
+```
+
+**会话结束前**：
+```bash
+/snapshot          # 保存项目快照，方便下次恢复
+```
+
+**新会话开始时**：
+```bash
+/recap             # 快速了解上次做到哪了
+```
+
+**定期整理**：
+```bash
+/distill           # 从快照中提炼关键决策到 decisions/
+```
+
+## 可用命令
+
+| 命令 | 功能 | 使用场景 |
+|------|------|---------|
+| `/ctx` | 对话级上下文管理 | 记录目标、更新进度、防止偏离 |
+| `/init` | 初始化项目结构 | 新项目开始时运行一次 |
+| `/snapshot` | 保存项目快照 | 会话结束前保存状态 |
+| `/recap` | 跨会话恢复 | 新会话开始时快速恢复 |
+| `/distill` | 提炼决策记录 | 定期整理关键决策 |
+
+## 命令详解
+
+### `/ctx` — 对话级上下文管理
 
 维护 `.claude/context.md`（≤60 行，六段式结构）。
 
 ```
-/context update    # 从对话历史提取信息，更新 context.md
-/context check     # 报告当前 Goal 和进度
-/context reset     # 清空 context.md（需确认）
+/ctx update    # 从对话历史提取信息，更新 context.md
+/ctx check     # 报告当前 Goal 和进度
+/ctx reset     # 清空 context.md（需确认）
 ```
 
 **context.md 格式**：
