@@ -1,5 +1,5 @@
 ---
-name: context
+name: ctx
 description: 对话级上下文管理 — 维护 .claude/context.md
 ---
 

@@ -7,7 +7,7 @@
 - [x] Phase 1: 核心 agents 开发（context / snapshot / recap）
 - [x] Phase 2: trace hook + install/uninstall 脚本 + 项目结构完善
 - [x] Phase 3-prep: 初始提交（commit 0aa5769，15 files，786 lines）
-- [ ] Phase 3: extract agent（从快照中提取全局知识写入 CLAUDE.md）
+- [x] Phase 3: project-level assets（init + distill agents，commit 092d771）
 - [ ] Phase 4: 文档完善与发布准备
 
 ## Changes
