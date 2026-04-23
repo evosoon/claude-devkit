@@ -1,6 +1,6 @@
 ---
 name: recap
-description: 新会话开始时恢复上下文 — 读取 state/decisions/git，输出中文简报，快速回到工作状态
+description: 用户明确输入 /recap 时触发 — 读取 state/decisions/git，输出中文简报，快速回到工作状态。不要在其他命令的输出中自动触发。
 ---
 
 # /recap — 恢复工作上下文
