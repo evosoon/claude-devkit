@@ -13,8 +13,8 @@ fail() { ((FAIL++)); ((TOTAL++)); echo "  ✗ $1"; }
 echo "=== claude-devkit tests ==="
 echo ""
 
-# --- Skill files exist and have correct frontmatter ---
-echo "# Skill files"
+# --- Command files exist and have correct frontmatter ---
+echo "# Command files"
 
 for skill in save recap; do
   file="$REPO_DIR/.claude/commands/${skill}.md"
@@ -135,6 +135,29 @@ for f in $extra_files; do
     pass "no stale file: $f"
   fi
 done
+
+echo ""
+
+# --- Setup and hook scripts ---
+echo "# Setup and hook scripts"
+
+if [ -x "$REPO_DIR/setup-reminder.sh" ]; then
+  pass "setup-reminder.sh exists and is executable"
+else
+  fail "setup-reminder.sh missing or not executable"
+fi
+
+if [ -x "$REPO_DIR/hooks/remind-save.sh" ]; then
+  pass "hooks/remind-save.sh exists and is executable"
+else
+  fail "hooks/remind-save.sh missing or not executable"
+fi
+
+if [ -f "$REPO_DIR/.claude/settings.json.example" ]; then
+  pass ".claude/settings.json.example exists"
+else
+  fail ".claude/settings.json.example missing"
+fi
 
 echo ""
 

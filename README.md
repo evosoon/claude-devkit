@@ -53,6 +53,29 @@ Claude 读取上次状态 + 决策记录 + git 历史，输出中文简报。
 git add .claude/context/
 ```
 
+> ⚠️ **重要**：最大的风险是忘记 `/save`。建议启用自动提醒（见下文）。
+
+## 可选：自动提醒
+
+人类会忘记运行 `/save`，导致决策依然流失。可以启用自动提醒：
+
+```bash
+./setup-reminder.sh
+```
+
+**工作原理**：
+- 安装一个 Claude Code `Stop` hook（每次 Claude 回复后触发）
+- 检测 `.claude/context/state.md` 是否缺失或超过 30 分钟未更新
+- 显示非侵入式提醒："💡 提示：会话结束前记得运行 /save 保存上下文"
+
+**卸载**：
+```bash
+rm ~/.claude/hooks/remind-save.sh
+# 并从 ~/.claude/settings.json 中移除对应的 hook 配置
+```
+
+参考配置见 `.claude/settings.json.example`。
+
 ## 卸载
 
 ```bash
