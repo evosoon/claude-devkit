@@ -18,12 +18,33 @@
 ```
 对话中的隐性决策
     ↓  /save
-.claude/context/state.md     ← 覆写，永远是最新状态
-.claude/context/decisions.md ← 追加，只增不删
+.claude/active/state.md              ← 覆写，当前工作状态
+.claude/docs/archive/decisions.md    ← 追加，历史决策记录
+.claude/docs/planning/constraints.md ← 更新，当前约束
     ↓  git commit → 跨设备同步
     ↓  /recap
 恢复简报 → 继续工作
 ```
+
+## 核心概念
+
+**Active vs Docs**（工作区 vs 文档区）：
+
+```
+Active（大脑+草稿纸）          Docs（笔记本+档案袋）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+易变、会话级、可丢弃           稳定、项目级、持久化
+state.md（当前状态）           planning/（活跃文档）
+                              archive/（历史记录）
+```
+
+**Planning vs Archive**（笔记本 vs 档案袋）：
+
+| 维度 | Planning | Archive |
+|------|----------|---------|
+| 时态 | 现在/未来 | 过去 |
+| 操作 | 更新/覆写 | 追加/不变 |
+| 内容 | 路线图、约束、架构理解 | 决策日志、探索记录 |
 
 ## 安装
 
@@ -40,17 +61,17 @@ git clone <repo> && cd claude-devkit
 ```
 /save
 ```
-Claude 回顾对话，自动提取状态和决策写入 `.claude/context/`。
+Claude 回顾对话，自动提取状态和决策写入 `.claude/active/` 和 `.claude/docs/`。
 
 **新会话开始**：
 ```
 /recap
 ```
-Claude 读取上次状态 + 决策记录 + git 历史，输出中文简报。
+Claude 读取上次状态 + 文档 + git 历史，输出中文简报。
 
 **记得 git 跟踪**：
 ```bash
-git add .claude/context/
+git add .claude/active/ .claude/docs/
 ```
 
 > ⚠️ **重要**：最大的风险是忘记 `/save`。建议启用自动提醒（见下文）。
@@ -65,7 +86,7 @@ git add .claude/context/
 
 **工作原理**：
 - 安装一个 Claude Code `Stop` hook（每次 Claude 回复后触发）
-- 检测 `.claude/context/state.md` 是否缺失或超过 30 分钟未更新
+- 检测 `.claude/active/state.md` 是否缺失或超过 30 分钟未更新
 - 显示非侵入式提醒："💡 提示：会话结束前记得运行 /save 保存上下文"
 
 **卸载**：

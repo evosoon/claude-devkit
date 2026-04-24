@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Remind user to run /save if context is stale or missing
 
-STATE_FILE=".claude/context/state.md"
+STATE_FILE=".claude/active/state.md"
 THRESHOLD_MINUTES=30
 
 if [[ ! -f "$STATE_FILE" ]]; then

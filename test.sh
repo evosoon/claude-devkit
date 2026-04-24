@@ -161,6 +161,54 @@ fi
 
 echo ""
 
+# --- New directory structure ---
+echo "# Directory structure"
+
+if [ -d "$REPO_DIR/.claude/active" ]; then
+  pass ".claude/active/ directory exists"
+else
+  fail ".claude/active/ directory missing"
+fi
+
+if [ -d "$REPO_DIR/.claude/docs/planning" ]; then
+  pass ".claude/docs/planning/ directory exists"
+else
+  fail ".claude/docs/planning/ directory missing"
+fi
+
+if [ -d "$REPO_DIR/.claude/docs/archive" ]; then
+  pass ".claude/docs/archive/ directory exists"
+else
+  fail ".claude/docs/archive/ directory missing"
+fi
+
+# Check key files exist
+if [ -f "$REPO_DIR/.claude/docs/planning/roadmap.md" ]; then
+  pass "docs/planning/roadmap.md exists"
+else
+  fail "docs/planning/roadmap.md missing"
+fi
+
+if [ -f "$REPO_DIR/.claude/docs/planning/constraints.md" ]; then
+  pass "docs/planning/constraints.md exists"
+else
+  fail "docs/planning/constraints.md missing"
+fi
+
+if [ -f "$REPO_DIR/.claude/docs/planning/architecture.md" ]; then
+  pass "docs/planning/architecture.md exists"
+else
+  fail "docs/planning/architecture.md missing"
+fi
+
+if [ -f "$REPO_DIR/.claude/docs/archive/decisions.md" ]; then
+  pass "docs/archive/decisions.md exists"
+else
+  fail "docs/archive/decisions.md missing"
+fi
+
+echo ""
+
 # --- Summary ---
 echo "=== $TOTAL tests: $PASS passed, $FAIL failed ==="
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1
