@@ -1,17 +1,18 @@
 ## 当前任务
-实现 active/docs 分离架构
+实现 active/docs 架构并集成智能沉淀建议到 /save
 
 ## 进度
-- [x] 设计 docs/ 结构（planning + archive）
-- [x] 创建 docs/ 目录和初始文档
-- [ ] 迁移现有 .claude/context/ 到新结构
-- [ ] 更新 /save 命令支持 docs/
-- [ ] 更新 /recap 命令读取 docs/
-- [ ] 更新测试
-- [ ] 更新 README
+- [x] 设计 active/docs 分离架构
+- [x] 更新 /save 和 /recap 命令
+- [x] 更新 hooks 和文档
+- [x] 所有测试通过（34/34）
+- [x] 设计智能沉淀建议逻辑
+- [x] 集成建议功能到 /save
+- [x] 清理重复的决策记录
+- [ ] 在实际使用中验证建议准确率
 
 ## 阻塞
 无
 
 ## 下一步
-迁移现有 context/ 内容到新结构
+在实际开发场景中 dogfood，观察智能建议的准确率和覆盖率
